@@ -1,11 +1,11 @@
 import React from 'react';
-import App from './App';
+import CardList from './CardList';
 
 const App =()=>{
     return(
         <>
             <h1>Robo</h1>
-            <App/>
+            <CardList/>
         
         </>
 
