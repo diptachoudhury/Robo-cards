@@ -1,53 +1,74 @@
 import React from 'react';
 import CardList from './CardList';
-import { robots } from './robots';
+
 import SearchBox from './SearchBox';
+import "./App.css";
 
 
 //state is an object that describe the app
 //for uing states we need class components so converting App to class comp
-// const state ={
-//     robots : robots,
-//     dearchfield:''
-// }
-
-
 
 
 class App extends React.Component {
     
-    
+        robotsName
         constructor(){
             super()
             this.state={
-                    //  message :"Robo Cards" 
-                    robots : robots,
+                    robots : [],
                     searchfield :''
             
             }
             } 
 
-        // changeMessage=()=>{
-        //    this.setState({message : "You are officially in my website"})
-        // }
+        
  
        //create mothers function 
             onSearchChange=(event)=>{
                 this.setState({searchfield : event.target.value});
-                //console.log(event.target.value);   //inside console we found target and value
+                //console.log(event.target.value);   //inside console we found target and value(found .target.value in console.log(event) console)
             } 
             
+            changeMessage=()=>{ 
+                this.setState({message: "No robots found"})
+            }
         
-        
-        render(){
-        const filteredRobotsArray = this.state.robots.filter((robot)=>{
+            componentWillMount(){     
+                   console.log("Component Will Mount has run"); 
+        }            //lifecycle method  Mounting             
+            
+            
+            
+            componentWillMount(){
+                fetch("https://jsonplaceholder.typicode.com/users")
+                .then(response=>{
+                    return  response.json();
+                })
+                .then(users=>{
+                    this.setState({robots:users});
+                })
+                this.robotsName ="Dipta";
+                 
+            }
+            
+            
+            
+             
+            
+            render(){
+
+                console.log("ComponenT Render has run");
+            const filteredRobotsArray = this.state.robots.filter((robot)=>{
             return robot.name.toLowerCase().includes(this.state.searchfield.toLowerCase());})
 
-    return(
+            return(
         <div className="tc">
-            <h1>{this.state.message}</h1>
+            <h1>Robo Fans</h1>
+            <h1>{this.robotsName}</h1>
+            
             {/* <button type="button" onClick ={this.changeMessage}>subscribe</button> */}
-            <SearchBox searchChange={this.onSearchChange}/>
+            {/* {filteredRobotsArray.length === 0 ? this.changeMessage() : ""} */}
+             <SearchBox searchChange={this.onSearchChange}/> {/* sending the onSearch function to SearchBox */}
             <CardList robots = {filteredRobotsArray}/>
         
         </div>
